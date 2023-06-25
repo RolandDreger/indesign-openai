@@ -2,6 +2,8 @@
 
 Experimental UXP dialog to connect OpenAI with Adobe InDesign.
 
+<img width="1920" alt="openAI_for_indesign" src="https://github.com/RolandDreger/indesign-openai/assets/19747449/c63b665c-a053-4ba5-b116-24a54ec5222b">
+
 ## Usage
 
 1. Go to `Code` → `Download ZIP`
