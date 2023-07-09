@@ -1,7 +1,7 @@
 /*
 	Script: openai-4-indesign
-	Version: 0.3.1;
-	Date: 25.6.2023;
+	Version: 0.4.0;
+	Date: 9.7.2023;
 	App: Adobe InDesign CC2023+
 	Description: OpenAI for InDesign;
 	Author: Roland Dreger, www.rolanddreger.net;
@@ -16,6 +16,7 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
 });
 
 // src/main.js
+var app = global.app ?? __require("indesign").app;
 var fs = __require("fs");
 var uxpStorage = __require("uxp").storage;
 var uxpLocalFileSystem = uxpStorage.localFileSystem;
@@ -38,7 +39,7 @@ var DIALOG_STYLES = (
 	}
 	sp-theme {
 		display: flex;
-    flex-direction: column;
+		flex-direction: column;
 		width: 100%;
 		height: 100%;
 		padding: 1.5rem 2rem 1rem 2rem;
@@ -107,7 +108,7 @@ var DIALOG_STYLES = (
 	#output-group {
 		position: relative;
 		flex-grow: 1;
-    flex-shrink: 1;
+		flex-shrink: 1;
 	}
 	#output-content-group {
 		position: relative;
@@ -398,10 +399,10 @@ var CustomDialog = class {
 };
 async function sendHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const modelDropdownElem = document.getElementById("model-dropdown");
   const nSlicerElem = document.getElementById("n-slider");
@@ -435,7 +436,7 @@ async function sendHandler(evt, context) {
     errorMessageElem.textContent = "Data for request not available.";
     return false;
   }
-  if (sendDataObj.hasOwnProperty("response_format")) {
+  if (Object.hasOwn(sendDataObj, "response_format")) {
     context.type = sendDataObj.response_format;
   } else {
     context.type = "text";
@@ -466,7 +467,7 @@ async function sendHandler(evt, context) {
     spinnerContainerElem.classList.add("hidden");
     outputContentGroupElem.classList.remove("hidden");
   }
-  if (!resultDataObj || !(resultDataObj.hasOwnProperty("choices") || resultDataObj.hasOwnProperty("data"))) {
+  if (!resultDataObj || !(Object.hasOwn(resultDataObj, "choices") || Object.hasOwn(resultDataObj, "data"))) {
     errorMessageElem.textContent = "Request failed.";
     return false;
   }
@@ -503,23 +504,23 @@ async function sendHandler(evt, context) {
 }
 function getDataForRequest(openAIModel, editText, instructionText, temperature, n) {
   if (!openAIModel || openAIModel.constructor !== String) {
-    console.warn("Parameter [openAIModel] not passed correctly to function.", openAIModel);
+    console.warn("Argument [openAIModel] must be a string.", openAIModel);
     return {};
   }
   if (editText === null || editText === void 0 || editText.constructor !== String) {
-    console.warn("Parameter [editText] not passed correctly to function.", editText);
+    console.warn("Argument [editText] must be a string.", editText);
     return {};
   }
   if (!instructionText || instructionText.constructor !== String) {
-    console.warn("Parameter [instructionText] not passed correctly to function.", instructionText);
+    console.warn("Argument [instructionText] must be a string.", instructionText);
     return {};
   }
   if (temperature === null || temperature === void 0 || temperature.constructor !== Number || temperature < 0 || temperature > 2) {
-    console.warn("Parameter [temperature] not passed correctly to function.", temperature);
+    console.warn("Argument [temperature] must be a number between 0 and 2.", temperature);
     return {};
   }
   if (!n || n.constructor !== Number || n < 0) {
-    console.warn("Parameter [n] not passed correctly to function.", n);
+    console.warn("Argument [n] must be a positiv number.", n);
     return {};
   }
   let endpoint;
@@ -568,60 +569,59 @@ function getDataForRequest(openAIModel, editText, instructionText, temperature, 
 }
 async function send(endpoint, sendData, method, apiKey) {
   if (!endpoint || endpoint.constructor !== String) {
-    throw new Error("Parameter [endpoint] must be a string.");
+    throw new Error("Argument [endpoint] must be a not empty string.");
   }
   if (sendData === null || sendData === void 0 || sendData.constructor !== String) {
-    throw new Error("Parameter [endpoint] must be a string.");
+    throw new Error("Argument [sendData] must be a string.");
   }
   if (!method || method.constructor !== String) {
-    throw new Error("Parameter [method] must be a string.");
+    throw new Error("Argument [method] must be a not empty string.");
   }
   const BASE_URL = "https://api.openai.com";
+  const url = new URL(endpoint, BASE_URL);
   let headers = new Headers();
   headers.append("Authorization", `Bearer ${apiKey}`);
   if (!!sendData) {
     headers.append("Content-Type", "application/json");
   }
-  const url = new URL(endpoint, BASE_URL);
   const request = new Request(url, {
     /* mode: "cors", */
-    /*  */
     /* credentials: "include", */
     method,
     headers,
     body: sendData,
     redirect: "follow"
   });
-  let jsonResData = {};
+  let respJsonObj = {};
   try {
-    const fetchRes = await fetch(request);
-    if (fetchRes.ok) {
-      jsonResData = await fetchRes.json();
+    const resp = await fetch(request);
+    if (resp.ok) {
+      respJsonObj = await resp.json();
     } else {
-      console.warn(`Fetch does not work. Status: ${fetchRes.status}`);
+      console.warn(`Fetch does not work. Status: ${resp.status}`);
       return null;
     }
   } catch (err) {
     console.error(err);
     return null;
   }
-  return jsonResData;
+  return respJsonObj;
 }
 function modelChangeHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   context.init();
 }
 function clearHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const textareaElem = evt.currentTarget.parentElement.parentElement.querySelector("sp-textarea");
   if (!textareaElem) {
@@ -631,10 +631,10 @@ function clearHandler(evt, context) {
 }
 function transferResultHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const outputTextareaElemTextareaElem = document.getElementById("output-textarea");
   const optionalInputTextareaElem = document.getElementById("optional-input-textarea");
@@ -643,10 +643,10 @@ function transferResultHandler(evt, context) {
 }
 function prevChoiceHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const outputTextareaElem = document.getElementById("output-textarea");
   const outputImageElem = document.getElementById("output-image");
@@ -660,10 +660,10 @@ function prevChoiceHandler(evt, context) {
 }
 function nextChoiceHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const outputTextareaElem = document.getElementById("output-textarea");
   const outputImageElem = document.getElementById("output-image");
@@ -677,10 +677,10 @@ function nextChoiceHandler(evt, context) {
 }
 async function insertHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   const errorMessageElem = document.getElementById("input-error-message");
   errorMessageElem.textContent = "";
@@ -701,10 +701,10 @@ async function insertHandler(evt, context) {
 }
 function closeHandler(evt, context) {
   if (!evt || !(evt instanceof Event)) {
-    throw new Error("Parameter [evt] must be an event object!");
+    throw new Error("Argument [evt] must be an Event object!");
   }
   if (!context || !(context instanceof CustomDialog)) {
-    throw new Error("Parameter [context] must be an CustomDialog object!");
+    throw new Error("Argument [context] must be an CustomDialog object!");
   }
   context.dialog.close("Close");
 }
@@ -716,7 +716,7 @@ function fillOptionalInputTextarea(openAIDialog2) {
 }
 function base64ToArrayBuffer(base64String) {
   if (!base64String || base64String.constructor !== String) {
-    throw new Error("Parameter [base64String] must be a base64 string!");
+    throw new Error("Argument [base64String] must be a base64 string!");
   }
   var binaryString = atob(decodeURIComponent(base64String));
   var len = binaryString.length;
@@ -746,7 +746,7 @@ function getTextSelection() {
     return null;
   }
   const firstSelection = selectionArray[0];
-  if (!firstSelection || !firstSelection.hasOwnProperty("texts") || !firstSelection.isValid) {
+  if (!firstSelection || !("texts" in firstSelection) || !firstSelection.isValid) {
     return null;
   }
   return firstSelection;
@@ -754,15 +754,15 @@ function getTextSelection() {
 function getSelectedText(defaultText = "") {
   let selectedText = defaultText;
   const textSelection = getTextSelection();
-  if (!textSelection || !textSelection.hasOwnProperty("texts") || !textSelection.isValid) {
+  if (!textSelection || !("texts" in textSelection) || !textSelection.isValid) {
     return selectedText;
   }
   const texts = textSelection.texts;
-  if (!texts || !textSelection.texts.hasOwnProperty("item")) {
+  if (!texts || !("item" in textSelection.texts)) {
     return selectedText;
   }
   const firstText = texts.item(0);
-  if (!firstText || !firstText.hasOwnProperty("contents")) {
+  if (!firstText || !("contents" in firstText)) {
     return selectedText;
   }
   selectedText = firstText.contents;
@@ -774,7 +774,7 @@ async function placeImage(src, type) {
     return false;
   }
   if (!type || type.constructor !== String || !(type === "src" || type === "b64_json")) {
-    throw new Error('Parameter [type] must be a string! Valid values: "url" or "b64_json"');
+    throw new Error('Argument [type] must be a string! Valid values: "url" or "b64_json"');
   }
   let arrayBuffer;
   let fileExt = "png";
@@ -858,7 +858,7 @@ function getGraphicSelection() {
     return null;
   }
   const firstSelection = selectionArray[0];
-  if (!firstSelection || !firstSelection.hasOwnProperty("graphics") || !firstSelection.hasOwnProperty("place") || !firstSelection.isValid) {
+  if (!firstSelection || !("graphics" in firstSelection) || !("place" in firstSelection) || !firstSelection.isValid) {
     return null;
   }
   return firstSelection;

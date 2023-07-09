@@ -9,7 +9,7 @@ Experimental UXP dialog to connect OpenAI with Adobe InDesign.
 1. Go to `Code` → `Download ZIP`
 2. Create an account at [OpenAi](https://openai.com/) (if you don't already have one).
 3. Create an API key under `User` → `API keys` and the button `Create new secret key`. 
-4. Insert this key into the script code. Line 22: `var OPENAI_API_KEY = "YOUR_API_KEY";` 
+4. Insert this key into the script code. Line 23: `var OPENAI_API_KEY = "YOUR_API_KEY";` 
 5. Start the script `openai-4-indesign.idjs` with a double-click from the InDesign Script palette.
 
 ## Notes
