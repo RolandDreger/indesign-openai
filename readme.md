@@ -1,6 +1,6 @@
 # OpenAI for Adobe InDesign
 
-Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5).
+Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP Plugin (Text, GPT-4) and UXP Script version (Text and Image), 
 
 <img width="1920" alt="openAI_for_indesign" src="https://github.com/RolandDreger/indesign-openai/assets/19747449/27885cdb-2254-4527-8b78-3672d27a09e6">
 
@@ -22,7 +22,7 @@ Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5).
 5. To install the script, place the script file `openai-4-indesign.idjs` in your InDesign script folder.
 6. Start the script  with a double-click from the InDesign Script palette.
 
-## Notes
+## Notes (Script Version)
 ### Text
 Text selected in the InDesign document is inserted into the `Optional Content` field when the script starts. This is intended for larger amounts of text to be handled, e.g. translations.
 
