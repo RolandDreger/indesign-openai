@@ -1,6 +1,6 @@
 # OpenAI for Adobe InDesign
 
-Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP Plugin (Text, GPT-4) and UXP Script version (Text and Image), 
+Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP Plugin (Text/GPT-4, Image description/GPT-4V) and UXP Script version (Text and Image), 
 
 <img width="1920" alt="openAI_for_indesign" src="https://github.com/RolandDreger/indesign-openai/assets/19747449/27885cdb-2254-4527-8b78-3672d27a09e6">
 
@@ -34,7 +34,7 @@ Via `Insert` button the text in the current document selection will be replaced 
 **Please note:** After inserting a generated image into the InDesign document by the script (via `Insert` button), it is initially stored only in the temporary folder on the computer. **If you want to keep the image, go to `Copy link to ...`** in the context menu of the Link palette. If not, the image file will be lost after shutdown. 
 
 ## Use Cases
-Here are some use cases: [Translation, Text Shortening, Headline Creation](https://vimeo.com/836122207), [Images](https://vimeo.com/835233091), [Index](https://vimeo.com/834805501) (For demonstration purposes only, not included in the script.) or [Table editing](https://vimeo.com/869998618) (Plugin version only). And GREP expressions are also a good use case.
+Here are some use cases: [Translation, Text Shortening, Headline Creation](https://vimeo.com/836122207), [Images](https://vimeo.com/835233091), [Index](https://vimeo.com/834805501) (For demonstration purposes only, not included in the script.), [Table editing](https://vimeo.com/869998618) (Plugin version only) or [image description](https://vimeo.com/895310245) (Plugin version only). And GREP expressions are also a good use case.
 
 You have others, please let me know ...
 
