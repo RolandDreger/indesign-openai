@@ -1,6 +1,6 @@
 # OpenAI for Adobe InDesign
 
-Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP Plugin (Text/GPT-4, Image description/GPT-4V) and UXP Script version (Text and Image), 
+UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP Plugin (Text/GPT-4o, Image description/GPT-4o). 
 
 <img width="1920" alt="openAI_for_indesign" src="https://github.com/RolandDreger/indesign-openai/assets/19747449/27885cdb-2254-4527-8b78-3672d27a09e6">
 
@@ -14,27 +14,10 @@ Experimental UXP dialog to connect OpenAI with Adobe InDesign (2023/v18.5). UXP 
 **Plugin** (latest)
 
 4. To install the plugin, double-click the downloaded file `openai-4-indesign.ccx`.
-5. At the first start click on the key icon (top right of the panel) and enter the API key in the input field of the opened dialog.
-
-*or*
-
-**Script** (deprecated)
-
-4. Insert the API key into the script code. Line 23: `var OPENAI_API_KEY = "YOUR_API_KEY";`
-5. To install the script, place the script file `openai-4-indesign.idjs` in your InDesign script folder.
-6. Start the script  with a double-click from the InDesign Script palette.
-
-## Notes (Script Version)
-### Text
-Text selected in the InDesign document is inserted into the `Optional Content` field when the script starts. This is intended for larger amounts of text to be handled, e.g. translations.
-
-Via `Insert` button the text in the current document selection will be replaced by the text in the `Result` field.
-
-### Image (Script Version only)
-**Please note:** After inserting a generated image into the InDesign document by the script (via `Insert` button), it is initially stored only in the temporary folder on the computer. **If you want to keep the image, go to `Copy link to ...`** in the context menu of the Link palette. If not, the image file will be lost after shutdown. 
+5. At the first start click on the key icon (top right of the panel) and enter the API key in the input field of the opened dialog. 
 
 ## Use Cases
-Here are some use cases: [Translation, Text Shortening, Headline Creation](https://vimeo.com/836122207), [Images](https://vimeo.com/835233091), [Index](https://vimeo.com/834805501) (For demonstration purposes only, not included in the script.), [Table editing](https://vimeo.com/869998618) (Plugin version only) or [image description](https://vimeo.com/895310245) (Plugin version only). And GREP expressions are also a good use case.
+Here are some use cases: [Translation, Text Shortening, Headline Creation](https://vimeo.com/836122207), [Images](https://vimeo.com/835233091), [Index](https://vimeo.com/834805501) (For demonstration purposes only, not included in the plugin.), [Table editing](https://vimeo.com/869998618) or [image description](https://vimeo.com/895310245). And GREP expressions are also a good use case.
 
 You have others, please let me know ...
 
